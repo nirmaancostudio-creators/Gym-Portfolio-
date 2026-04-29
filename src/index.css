@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ip-bg: #0A0A0A;
+  --ip-surface: #141414;
+  --ip-border: #2A2A2A;
+  --ip-primary: #FF3B3B;
+  --ip-primary-hover: #D92D2D;
+  --ip-text: #FFFFFF;
+  --ip-muted: #A0A0A0;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0A0A0A;
+  color: #fff;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: #FF3B3B; color: #0A0A0A; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #FF3B3B; }
+
+/* Grain overlay */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+  z-index: 2;
+}
+
+/* Grid lines bg */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Red glow */
+.red-glow {
+  box-shadow: 0 0 40px rgba(255,59,59,0.3), 0 0 80px rgba(255,59,59,0.12);
+}
+
+/* Text stroke */
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.9);
+  color: transparent;
+}
+.text-stroke-muted {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.08);
+  color: transparent;
+}
+
+/* Marquee */
+@keyframes ip-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: ip-marquee 40s linear infinite; }
+.marquee-slow  { animation: ip-marquee 80s linear infinite; }
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Logo pulse */
+@keyframes ip-pulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.05); opacity: 0.8; }
+}
+.logo-pulse { animation: ip-pulse 1.4s ease-in-out infinite; }
+
+/* Buttons */
+.btn-red {
+  background: #FF3B3B;
+  color: #fff;
+  transition: all 250ms ease;
+  cursor: pointer;
+}
+.btn-red:hover {
+  background: #D92D2D;
+  box-shadow: 0 0 0 1px rgba(255,59,59,0.4), 0 10px 40px -10px rgba(255,59,59,0.6);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: all 250ms ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: #FF3B3B;
+  color: #FF3B3B;
+}
+
+/* Dark inputs */
+.ip-input {
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  color: #fff;
+  transition: border-color 200ms ease;
+  outline: none;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+.ip-input:focus { border-color: #FF3B3B; }
+.ip-input::placeholder { color: #555; }
+
+/* Section label */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #A0A0A0;
+  font-weight: 600;
+}
+.section-label::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: #FF3B3B;
+  flex-shrink: 0;
+}
+
+/* ── Performance: force GPU layers on animated elements ── */
+.marquee-track,
+.marquee-slow {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .marquee-slow { animation: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Ping animation for WhatsApp button */
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
